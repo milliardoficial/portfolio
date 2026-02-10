@@ -2,14 +2,13 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio Milliard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portfólio Essência - Vida Prática 40+</title>
     <style>
         :root {
             --bege-linho: #f5f5f0;
             --marrom-cafe: #3e2723;
             --terracota: #a0522d;
-            --overlay: rgba(62, 39, 35, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -17,23 +16,23 @@
         body {
             background-color: var(--bege-linho);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden; /* Evita scroll lateral no mobile */
+            overflow: hidden; 
             height: 100vh;
+            width: 100vw;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        /* Container do Portfólio */
+        /* Container do Portfólio Ocupando 90% da Tela */
         .portfolio-container {
             position: relative;
-            width: 90%;
-            max-width: 400px; /* Formato ideal para smartphone */
-            height: 75vh;
+            width: 95%; 
+            height: 90vh; 
+            max-width: 506px; 
             background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             overflow: hidden;
         }
 
@@ -42,81 +41,83 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s ease;
-            transform: scale(1.05);
+            /* Transição tornada mais lenta: 1.5s para opacidade e 2s para o zoom */
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 2s cubic-bezier(0.2, 0, 0.2, 1);
+            transform: scale(1.15); 
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1;
         }
 
         .slide.active {
             opacity: 1;
             transform: scale(1);
-            z-index: 1;
+            z-index: 2;
         }
 
         .slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Garante que a foto do perfume preencha o espaço */
+            object-fit: cover; 
         }
 
-        /* Controles Super Elegantes */
+        /* Contador */
+        .counter {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            color: #fff; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        /* Controles de Navegação */
         .controls {
             position: absolute;
-            bottom: 30px;
+            bottom: 40px;
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 40px;
+            padding: 0 30px;
             z-index: 10;
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(62, 39, 35, 0.3);
-            color: var(--marrom-cafe);
-            width: 50px;
-            height: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             -webkit-tap-highlight-color: transparent;
         }
 
         .btn:active {
             transform: scale(0.9);
             background: var(--marrom-cafe);
-            color: #fff;
         }
 
-        .counter {
+        .overlay-bottom {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            color: var(--marrom-cafe);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            z-index: 10;
-        }
-
-        /* Rodapé com Slogan */
-        .footer-brand {
-            margin-top: 20px;
-            text-align: center;
-            color: var(--marrom-cafe);
-        }
-
-        .footer-brand p {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            opacity: 0.7;
+            bottom: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            z-index: 5;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -124,29 +125,26 @@
 
     <div class="portfolio-container">
         <div class="counter" id="counter">01 / 13</div>
+        <div class="overlay-bottom"></div>
         
-        <div class="slide active"><img src="01.png" alt="Milliard 1"></div>
-        <div class="slide"><img src="03.png" alt="Milliard 2"></div>
-        <div class="slide"><img src="04.png" alt="Milliard 3"></div>
-        <div class="slide"><img src="05.png" alt="Milliard 4"></div>
-        <div class="slide"><img src="06.png" alt="Milliard 5"></div>
-        <div class="slide"><img src="07.png" alt="Milliard 6"></div>
-        <div class="slide"><img src="08.png" alt="Milliard 7"></div>
-        <div class="slide"><img src="09.png" alt="Milliard 8"></div>
-        <div class="slide"><img src="10.png" alt="Milliard 9"></div>
-        <div class="slide"><img src="11.png" alt="Milliard 10"></div>
-        <div class="slide"><img src="12.png" alt="Milliard 11"></div>
-        <div class="slide"><img src="13.png" alt="Milliard 12"></div>
-        <div class="slide"><img src="14.png" alt="Milliard 13"></div>
+        <div class="slide active"><img src="img1.jpg" alt="Perfume 1"></div>
+        <div class="slide"><img src="img2.jpg" alt="Perfume 2"></div>
+        <div class="slide"><img src="img3.jpg" alt="Perfume 3"></div>
+        <div class="slide"><img src="img4.jpg" alt="Perfume 4"></div>
+        <div class="slide"><img src="img5.jpg" alt="Perfume 5"></div>
+        <div class="slide"><img src="img6.jpg" alt="Perfume 6"></div>
+        <div class="slide"><img src="img7.jpg" alt="Perfume 7"></div>
+        <div class="slide"><img src="img8.jpg" alt="Perfume 8"></div>
+        <div class="slide"><img src="img9.jpg" alt="Perfume 9"></div>
+        <div class="slide"><img src="img10.jpg" alt="Perfume 10"></div>
+        <div class="slide"><img src="img11.jpg" alt="Perfume 11"></div>
+        <div class="slide"><img src="img12.jpg" alt="Perfume 12"></div>
+        <div class="slide"><img src="img13.jpg" alt="Perfume 13"></div>
 
         <div class="controls">
             <div class="btn" onclick="changeSlide(-1)">&#10229;</div>
             <div class="btn" onclick="changeSlide(1)">&#10230;</div>
         </div>
-    </div>
-
-    <div class="footer-brand">
-        <p>Creative Presentation - Milliard</p>
     </div>
 
     <script>
@@ -155,33 +153,31 @@
         const counter = document.getElementById('counter');
 
         function changeSlide(direction) {
-            // Remove classe ativa do slide atual
             slides[currentSlide].classList.remove('active');
-
-            // Calcula o próximo slide (loop infinito)
             currentSlide = (currentSlide + direction + slides.length) % slides.length;
-
-            // Adiciona classe ativa ao novo slide
             slides[currentSlide].classList.add('active');
-
-            // Atualiza o contador
+            
             const displayNum = (currentSlide + 1).toString().padStart(2, '0');
             counter.innerText = `${displayNum} / 13`;
         }
 
-        // Suporte para Swipe (deslizar o dedo)
         let touchstartX = 0;
         let touchendX = 0;
+        const container = document.querySelector('.portfolio-container');
         
-        document.querySelector('.portfolio-container').addEventListener('touchstart', e => {
+        container.addEventListener('touchstart', e => {
             touchstartX = e.changedTouches[0].screenX;
-        });
+        }, {passive: true});
 
-        document.querySelector('.portfolio-container').addEventListener('touchend', e => {
+        container.addEventListener('touchend', e => {
             touchendX = e.changedTouches[0].screenX;
+            handleGesture();
+        }, {passive: true});
+
+        function handleGesture() {
             if (touchstartX - touchendX > 50) changeSlide(1);
             if (touchendX - touchstartX > 50) changeSlide(-1);
-        });
+        }
     </script>
 </body>
 </html>
