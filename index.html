@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Portfólio Essência - Vida Prática 40+</title>
+    <title>Portfólio Milliard</title>
     <style>
         :root {
             --bege-linho: #f5f5f0;
             --marrom-cafe: #3e2723;
+            --terracota: #a0522d;
+            --whatsapp-color: #25d366;
         }
 
-        /* Reset total para ocupação de 100% da tela */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body, html {
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #000; /* Fundo preto evita flashes brancos entre transições */
+            background-color: #000;
         }
 
-        /* Container ocupando toda a tela do celular */
         .portfolio-container {
             position: relative;
             width: 100vw;
             height: 100vh;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .slide {
@@ -39,34 +41,23 @@
             justify-content: center;
             align-items: center;
             z-index: 1;
+            pointer-events: none;
         }
 
         .slide.active {
             opacity: 1;
             transform: scale(1);
             z-index: 2;
+            pointer-events: auto;
         }
 
         .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Força o preenchimento total */
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
         }
 
-        /* Contador no topo */
-        .counter {
-            position: absolute;
-            top: env(safe-area-inset-top, 20px); /* Respeita o notch do iPhone */
-            right: 20px;
-            color: #fff; 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            font-size: 0.9rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            z-index: 10;
-        }
-
-        /* Controles Laterais no Meio da Tela */
+        /* Controles Laterais */
         .controls {
             position: absolute;
             top: 50%;
@@ -76,7 +67,7 @@
             padding: 0 15px;
             transform: translateY(-50%);
             z-index: 10;
-            pointer-events: none; /* Permite que o clique passe para a imagem se necessário */
+            pointer-events: none;
         }
 
         .btn {
@@ -85,32 +76,57 @@
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: opacity 0.5s ease, transform 0.3s ease;
             font-size: 1.2rem;
-            pointer-events: auto; /* Reativa o clique apenas nos botões */
+            pointer-events: auto;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .btn:active {
-            transform: scale(0.85);
-            background: rgba(255, 255, 255, 0.3);
+        .btn.hidden { opacity: 0; pointer-events: none; transform: scale(0.8); }
+
+        /* Botão de WhatsApp Estratégico */
+        .cta-whatsapp {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background-color: var(--terracota);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.8s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            z-index: 20;
+            white-space: nowrap;
         }
 
-        /* Overlay sutil para legibilidade */
-        .vignette-overlay {
+        .cta-whatsapp.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .vignette {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.3) 100%);
+            background: radial-gradient(circle, transparent 70%, rgba(0,0,0,0.4) 100%);
             z-index: 5;
             pointer-events: none;
         }
@@ -119,57 +135,77 @@
 <body>
 
     <div class="portfolio-container">
-        <div class="counter" id="counter">01 / 13</div>
-        <div class="vignette-overlay"></div>
+        <div class="vignette"></div>
         
-        <div class="slide active"><img src="01.png" alt="Perfume 1"></div>
-        <div class="slide"><img src="03.png" alt="Perfume 2"></div>
-        <div class="slide"><img src="04.png" alt="Perfume 3"></div>
-        <div class="slide"><img src="05.png" alt="Perfume 4"></div>
-        <div class="slide"><img src="06.png" alt="Perfume 5"></div>
-        <div class="slide"><img src="07.png" alt="Perfume 6"></div>
-        <div class="slide"><img src="08.png" alt="Perfume 7"></div>
-        <div class="slide"><img src="09.png" alt="Perfume 8"></div>
-        <div class="slide"><img src="10.png" alt="Perfume 9"></div>
-        <div class="slide"><img src="11.png" alt="Perfume 10"></div>
-        <div class="slide"><img src="12.png" alt="Perfume 11"></div>
-        <div class="slide"><img src="13.png" alt="Perfume 12"></div>
-        <div class="slide"><img src="14.png" alt="Perfume 13"></div>
+        <div class="slide active"><img src="01.png" alt="Milliard 1"></div>
+        <div class="slide"><img src="03.png" alt="Milliard 2"></div>
+        <div class="slide"><img src="04.png" alt="Milliard 3"></div>
+        <div class="slide"><img src="05.png" alt="Milliard 4"></div>
+        <div class="slide"><img src="06.png" alt="Milliard 5"></div>
+        <div class="slide"><img src="07.png" alt="Milliard 6"></div>
+        <div class="slide"><img src="08.png" alt="Milliard 7"></div>
+        <div class="slide"><img src="09.png" alt="Milliard 8"></div>
+        <div class="slide"><img src="10.png" alt="Milliard 9"></div>
+        <div class="slide"><img src="11.png" alt="Milliard 10"></div>
+        <div class="slide"><img src="12.png" alt="Milliard 11"></div>
+        <div class="slide"><img src="13.png" alt="Milliard 12"></div>
+        <div class="slide"><img src="14.png" alt="Milliard 13"></div>
+
+       <a href="https://wa.me/5511910221415?text=Olá! Conheci o portfólio Milliard e gostaria de mais informações." 
+           class="cta-whatsapp" id="whatsapp-btn" target="_blank">
+            FALAR COM CONSULTOR
+        </a>
 
         <div class="controls">
-            <div class="btn" onclick="changeSlide(-1)">&#10229;</div>
-            <div class="btn" onclick="changeSlide(1)">&#10230;</div>
+            <div id="btn-prev" class="btn hidden" onclick="changeSlide(-1)">&#10229;</div>
+            <div id="btn-next" class="btn" onclick="changeSlide(1)">&#10230;</div>
         </div>
     </div>
 
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
-        const counter = document.getElementById('counter');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const whatsappBtn = document.getElementById('whatsapp-btn');
+
+        function preloadImages() {
+            const images = document.querySelectorAll('.slide img');
+            images.forEach(img => {
+                const newImg = new Image();
+                newImg.src = img.src;
+            });
+        }
 
         function changeSlide(direction) {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + direction + slides.length) % slides.length;
             slides[currentSlide].classList.add('active');
-            
-            const displayNum = (currentSlide + 1).toString().padStart(2, '0');
-            counter.innerText = `${displayNum} / 13`;
+
+            // Visibilidade do botão Voltar
+            currentSlide === 0 ? btnPrev.classList.add('hidden') : btnPrev.classList.remove('hidden');
+
+            // Lógica do Botão WhatsApp (Aparece apenas na última imagem)
+            if (currentSlide === slides.length - 1) {
+                whatsappBtn.classList.add('visible');
+                btnNext.classList.add('hidden'); // Oculta o "avançar" no último para focar na CTA
+            } else {
+                whatsappBtn.classList.remove('visible');
+                btnNext.classList.remove('hidden');
+            }
         }
 
-        // Suporte para Swipe (arrastar)
+        // Swipe Support
         let touchstartX = 0;
-        let touchendX = 0;
         const container = document.querySelector('.portfolio-container');
-        
-        container.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-
+        container.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, {passive: true});
         container.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
+            let touchendX = e.changedTouches[0].screenX;
             if (touchstartX - touchendX > 50) changeSlide(1);
             if (touchendX - touchstartX > 50) changeSlide(-1);
         }, {passive: true});
+
+        window.onload = preloadImages;
     </script>
 </body>
 </html>
