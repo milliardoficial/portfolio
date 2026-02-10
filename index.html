@@ -8,31 +8,23 @@
         :root {
             --bege-linho: #f5f5f0;
             --marrom-cafe: #3e2723;
-            --terracota: #a0522d;
         }
 
+        /* Reset total para ocupação de 100% da tela */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            background-color: var(--bege-linho);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden; 
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000; /* Fundo preto evita flashes brancos entre transições */
         }
 
-        /* Container do Portfólio Ocupando 90% da Tela */
+        /* Container ocupando toda a tela do celular */
         .portfolio-container {
             position: relative;
-            width: 95%; 
-            height: 90vh; 
-            max-width: 506px; 
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
         }
 
@@ -41,9 +33,8 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            /* Transição tornada mais lenta: 1.5s para opacidade e 2s para o zoom */
             transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 2s cubic-bezier(0.2, 0, 0.2, 1);
-            transform: scale(1.15); 
+            transform: scale(1.1); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -59,63 +50,67 @@
         .slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover; 
+            object-fit: cover; /* Força o preenchimento total */
         }
 
-        /* Contador */
+        /* Contador no topo */
         .counter {
             position: absolute;
-            top: 25px;
-            right: 25px;
+            top: env(safe-area-inset-top, 20px); /* Respeita o notch do iPhone */
+            right: 20px;
             color: #fff; 
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 300;
             letter-spacing: 2px;
             z-index: 10;
         }
 
-        /* Controles de Navegação */
+        /* Controles Laterais no Meio da Tela */
         .controls {
             position: absolute;
-            bottom: 40px;
+            top: 50%;
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 30px;
+            padding: 0 15px;
+            transform: translateY(-50%);
             z-index: 10;
+            pointer-events: none; /* Permite que o clique passe para a imagem se necessário */
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 1.4rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 1.2rem;
+            pointer-events: auto; /* Reativa o clique apenas nos botões */
             -webkit-tap-highlight-color: transparent;
         }
 
         .btn:active {
-            transform: scale(0.9);
-            background: var(--marrom-cafe);
+            transform: scale(0.85);
+            background: rgba(255, 255, 255, 0.3);
         }
 
-        .overlay-bottom {
+        /* Overlay sutil para legibilidade */
+        .vignette-overlay {
             position: absolute;
-            bottom: 0;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 150px;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            height: 100%;
+            background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.3) 100%);
             z-index: 5;
             pointer-events: none;
         }
@@ -125,7 +120,7 @@
 
     <div class="portfolio-container">
         <div class="counter" id="counter">01 / 13</div>
-        <div class="overlay-bottom"></div>
+        <div class="vignette-overlay"></div>
         
         <div class="slide active"><img src="01.png" alt="Perfume 1"></div>
         <div class="slide"><img src="03.png" alt="Perfume 2"></div>
@@ -161,6 +156,7 @@
             counter.innerText = `${displayNum} / 13`;
         }
 
+        // Suporte para Swipe (arrastar)
         let touchstartX = 0;
         let touchendX = 0;
         const container = document.querySelector('.portfolio-container');
@@ -171,13 +167,9 @@
 
         container.addEventListener('touchend', e => {
             touchendX = e.changedTouches[0].screenX;
-            handleGesture();
-        }, {passive: true});
-
-        function handleGesture() {
             if (touchstartX - touchendX > 50) changeSlide(1);
             if (touchendX - touchstartX > 50) changeSlide(-1);
-        }
+        }, {passive: true});
     </script>
 </body>
 </html>
